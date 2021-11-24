@@ -1,0 +1,126 @@
+院内採用状況	製品名（■/◇：一般用薬/要指導医薬品）	製品名（英名）	製造販売会社	発売・販売会社	剤形	規格単位	薬価	規制区分	薬効	薬効分類	一般名	一般名（英名）	YJコード	HOTコード	製品備考	識別コード	色	割線の有無	添加物
+	2％ステリキット	Sterikit	山善製薬		液：外用			劇	殺菌消毒剤	732	グルタラール	glutaral（JAN）	999999999999						pH調整剤，安定剤
+	20％ステリキット	Sterikit	山善製薬		液：外用			劇	殺菌消毒剤	732	グルタラール	glutaral（JAN）	999999999999						pH調整剤，安定剤
+	アセスA	Acess A	佐藤製薬	佐藤製薬	軟膏・硬膏：歯科用				歯肉炎・歯槽膿漏薬	279	アセスA	Acess A	999999999999						グリセリン，アルギン酸Na，薬用石ケン，ラウリル硫酸Na，サッカリンNa，赤色3号，ブチルパラベン，炭酸水素Na，水，香料，l-メントール
+	アル・パッド	Alcohol Prep Pad	アドマル産業		液：外用				殺菌消毒剤	261	イソプロパノール	isopropanol（JP）	999999999999						
+	アン・スワブ		アドマル産業		液：外用				殺菌消毒剤	261	ポビドンヨード	povidone-iodine（JP）	999999999999						pH調整剤，水酸化ナトリウム
+	医療用液体窒素	Liquid Nitrogen	水島酸素商会		液：その他				医療用ガス	799	窒素	nitrogen（JP）	999999999999						
+	医療用液体窒素	Liquid Nitrogen	伊藤忠工業ガス		液：その他				医療用ガス	799	窒素	nitrogen（JP）	999999999999						
+	医療用窒素	Nitrogen	大陽日酸北海道		その他：その他			局	医療用ガス	799	窒素	nitrogen（JP）	999999999999						
+	医療用窒素ガス	Nitrogen	オカノ		その他：その他			局	医療用ガス	799	窒素	nitrogen（JP）	999999999999						
+	液化酸素	Liquid Oxygen	昭和電工ガスプロダクツ		液：その他				医療用ガス	799	酸素	oxygen（JP）	999999999999						
+	液化酸素	Liquid Oxygen	水島酸素商会		液：その他				医療用ガス	799	酸素	oxygen（JP）	999999999999						
+	液化酸素	Liquid Oxygen	福岡酸素		液：その他				医療用ガス	799	酸素	oxygen（JP）	999999999999						
+	液化酸素	Liquid oxygen	大丸エナウィン		液：その他				医療用ガス	799	酸素	oxygen（JP）	999999999999						
+	液化酸素	Liquid Oxygen	秋酸工業		液：その他				医療用ガス	799	酸素	oxygen（JP）	999999999999						
+	液化酸素	Liquid Oxygen	イワサワ		液：その他				医療用ガス	799	酸素	oxygen（JP）	999999999999						
+	液化酸素	Liquid Oxygen	イビデンケミカル		液：その他				医療用ガス	799	酸素	oxygen（JP）	999999999999						
+	液化酸素	Liquid Oxygen	茨城ガスセンター		液：その他				医療用ガス	799	酸素	oxygen（JP）	999999999999						
+	液化酸素	Liquid Oxygen	因の島ガス		液：その他				医療用ガス	799	酸素	oxygen（JP）	999999999999						
+	液化酸素	Liquid Oxygen	アバンテ都島		液：その他				医療用ガス	799	酸素	oxygen（JP）	999999999999						
+	液化酸素	Liquid Oxygen	伊藤忠工業ガス		液：その他				医療用ガス	799	酸素	oxygen（JP）	999999999999						
+	液化酸素	Liquid Oxygen	内村酸素		液：その他				医療用ガス	799	酸素	oxygen（JP）	999999999999						
+	液化酸素	Liquid Oxygen	エア・ガシズ北九州		液：その他				医療用ガス	799	酸素	oxygen（JP）	999999999999						
+	液化酸素	Liquid Oxygen	エバ	エバ	液：その他				医療用ガス	799	酸素	oxygen（JP）	999999999999						
+	液化酸素	Liquid Oxygen	大島商会		液：その他				医療用ガス	799	酸素	oxygen（JP）	999999999999						
+	液化酸素	Liquid Oxygen	エアーメディックス		液：その他				医療用ガス	799	酸素	oxygen（JP）	999999999999						
+	液化酸素	Liquid Oxygen	オカノ		液：その他				医療用ガス	799	酸素	oxygen（JP）	999999999999						
+	液化酸素	Liquid Oxygen	ガステックサービス		液：その他				医療用ガス	799	酸素	oxygen（JP）	999999999999						
+	液化酸素	Liquid Oxygen	鹿児島酸素		液：その他				医療用ガス	799	酸素	oxygen（JP）	999999999999						
+	液化酸素	Liquid Oxygen	岡谷酸素		液：その他				医療用ガス	799	酸素	oxygen（JP）	999999999999						
+	液化酸素	Liquid Oxygen	江藤酸素		液：その他				医療用ガス	799	酸素	oxygen（JP）	999999999999						
+	液化酸素	Liquid Oxigen	Kist		液：その他				医療用ガス	799	酸素	oxygen（JP）	999999999999						
+	液化酸素	Liquid Oxygen	共同高圧ガス工業		液：その他				医療用ガス	799	酸素	oxygen（JP）	999999999999						
+	液化窒素	Liquid Nitrogen	東邦酸素工業		液：その他				医療用ガス	799	窒素	nitrogen（JP）	999999999999						
+	液化窒素	Liquid Nitrogen	三共酸素商会		液：その他				医療用ガス	799	窒素	nitrogen（JP）	999999999999						
+	液化窒素	Liquid Nitrogen	エア・ガシズ北九州		液：その他				医療用ガス	799	窒素	nitrogen（JP）	999999999999						
+	液化窒素	Liquid Nitrogen	鹿児島酸素		液：その他				医療用ガス	799	窒素	nitrogen（JP）	999999999999						
+	液化窒素	Liquid Nitrogen	岡谷酸素		液：その他				医療用ガス	799	窒素	nitrogen（JP）	999999999999						
+	液体酸素	Liquid Oxygen	立川酸素		液：その他				医療用ガス	799	酸素	oxygen（JP）	999999999999						
+	液体酸素	Liquid Oxygen	阿波酸素		液：その他				医療用ガス	799	酸素	oxygen（JP）	999999999999						
+	液体酸素	Liquid Oxygen	協栄高圧ガス		液：その他				医療用ガス	799	酸素	oxygen（JP）	999999999999						
+	液体窒素	Liquid Nitrogen	立川酸素		液：その他				医療用ガス	799	窒素	nitrogen（JP）	999999999999						
+	液体窒素	Liquid Nitrogen	協栄高圧ガス		液：その他				医療用ガス	799	窒素	nitrogen（JP）	999999999999						
+	塩化ナトリウム	Sodium chloride	小堺製薬		末：外用			局	無機電解質物質	331	塩化ナトリウム	sodium chloride（JP）	999999999999						
+	ザルコニンN消毒液0.1	Zalkonin N	健栄製薬		液：外用				殺菌消毒剤	732	ベンザルコニウム塩化物	benzalkonium chloride（JP）	999999999999						亜硝酸ジシクロヘキシルアミン，エタノール，炭酸水素ナトリウム，プロピレングリコール
+	酸素	Oxygen	立川酸素		その他：その他			局	医療用ガス	799	酸素	oxygen（JP）	999999999999						
+	酸素	Oxygen	水島酸素商会		その他：その他			局	医療用ガス	799	酸素	oxygen（JP）	999999999999						
+	酸素	Oxygen	福岡酸素		その他：その他			局	医療用ガス	799	酸素	oxygen（JP）	999999999999						
+	酸素	Oxygen	和歌山酸素		その他：その他			局	医療用ガス	799	酸素	oxygen（JP）	999999999999						
+	酸素	Oxygen	春日井ガスセンター		その他：その他			局	医療用ガス	799	酸素	oxygen（JP）	999999999999						
+	酸素	Oxygen	秋酸工業		その他：その他			局	医療用ガス	799	酸素	oxygen（JP）	999999999999						
+	酸素	Oxygen	泉産業		その他：その他			局	医療用ガス	799	酸素	oxygen（JP）	999999999999						
+	酸素	Oxygen	阿波酸素		その他：その他			局	医療用ガス	799	酸素	oxygen（JP）	999999999999						
+	酸素	Oxygen	イワサワ		その他：その他			局	医療用ガス	799	酸素	oxygen（JP）	999999999999						
+	酸素	Oxygen	イビデンケミカル		その他：その他			局	医療用ガス	799	酸素	oxygen（JP）	999999999999						
+	酸素	Oxygen	茨城ガスセンター		その他：その他			局	医療用ガス	799	酸素	oxygen（JP）	999999999999						
+	酸素	Oxygen	アバンテ都島		その他：その他			局	医療用ガス	799	酸素	oxygen（JP）	999999999999						
+	酸素	Oxygen	伊藤忠工業ガス		その他：その他			局	医療用ガス	799	酸素	oxygen（JP）	999999999999						
+	酸素	Oxygen	宇野酸素		その他：その他			局	医療用ガス	799	酸素	oxygen（JP）	999999999999						
+	酸素	Oxygen	内村酸素		その他：その他			局	医療用ガス	799	酸素	oxygen（JP）	999999999999						
+	酸素	Oxygen	エア・ガシズ北九州		その他：その他			局	医療用ガス	799	酸素	oxygen（JP）	999999999999						
+	酸素	Oxygen	エバ	エバ	その他：その他			局	医療用ガス	799	酸素	oxygen（JP）	999999999999						
+	酸素	Oxygen	大島商会		その他：その他			局	医療用ガス	799	酸素	oxygen（JP）	999999999999						
+	酸素	Oxygen	エアーメディックス		その他：その他			局	医療用ガス	799	酸素	oxygen（JP）	999999999999						
+	酸素	Oxygen	オカノ		その他：その他			局	医療用ガス	799	酸素	oxygen（JP）	999999999999						
+	酸素	Oxygen	ガステックサービス		その他：その他			局	医療用ガス	799	酸素	oxygen（JP）	999999999999						
+	酸素	Oxygen	鹿児島酸素		その他：その他			局	医療用ガス	799	酸素	oxygen（JP）	999999999999						
+	酸素	Oxygen	岡谷酸素		その他：その他			局	医療用ガス	799	酸素	oxygen（JP）	999999999999						
+	酸素	Oxygen	江藤酸素		その他：その他			局	医療用ガス	799	酸素	oxygen（JP）	999999999999						
+	酸素	Oxygen	Kist		その他：その他			局	医療用ガス	799	酸素	oxygen（JP）	999999999999						
+	酸素	Oxygen	協栄高圧ガス		その他：その他			局	医療用ガス	799	酸素	oxygen（JP）	999999999999						
+	酸素	Oxygen	共同高圧ガス工業		その他：その他			局	医療用ガス	799	酸素	oxygen（JP）	999999999999						
+	窒素	Nitrogen	東邦酸素工業		その他：その他			局	医療用ガス	799	窒素	nitrogen（JP）	999999999999						
+	窒素	Nitrogen	立川酸素		その他：その他			局	医療用ガス	799	窒素	nitrogen（JP）	999999999999						
+	窒素	Nitrogen	伊藤忠工業ガス		その他：その他			局	医療用ガス	799	窒素	nitrogen（JP）	999999999999						
+	窒素	Nitrogen	エア・ガシズ北九州		その他：その他			局	医療用ガス	799	窒素	nitrogen（JP）	999999999999						
+	窒素	Nitrogen	鹿児島酸素		その他：その他			局	医療用ガス	799	窒素	nitrogen（JP）	999999999999						
+	窒素	Nitrogen	協栄高圧ガス		その他：その他			局	医療用ガス	799	窒素	nitrogen（JP）	999999999999						
+	窒素	Nitrogen	市村酸素		その他：その他			局	医療用ガス	799	窒素	nitrogen（JP）	999999999999						
+	窒素	Nitrogen	岩谷瓦斯		その他：その他			局	医療用ガス	799	窒素	nitrogen（JP）	999999999999						
+	窒素	Nitrogen	岩谷産業		その他：その他			局	医療用ガス	799	窒素	nitrogen（JP）	999999999999						
+	窒素	Nitrogen	宇野酸素		その他：その他			局	医療用ガス	799	窒素	nitrogen（JP）	999999999999						
+	窒素	Nitrogen	鹿児島熔材		その他：その他			局	医療用ガス	799	窒素	nitrogen（JP）	999999999999						
+	窒素	Nitrogen	カンサン		その他：その他			局	医療用ガス	799	窒素	nitrogen（JP）	999999999999						
+	窒素	Nitrogen	協和ガス		その他：その他			局	医療用ガス	799	窒素	nitrogen（JP）	999999999999						
+	窒素	Nitrogen	熊本酸素		その他：その他			局	医療用ガス	799	窒素	nitrogen（JP）	999999999999						
+	窒素	Nitrogen	京葉帝酸		その他：その他			局	医療用ガス	799	窒素	nitrogen（JP）	999999999999						
+	窒素	Nitrogen	小池酸素工業		その他：その他			局	医療用ガス	799	窒素	nitrogen（JP）	999999999999						
+	窒素	Nitrogen	高圧ガス工業		その他：その他			局	医療用ガス	799	窒素	nitrogen（JP）	999999999999						
+	窒素	Nitrogen	サイサン		その他：その他			局	医療用ガス	799	窒素	nitrogen（JP）	999999999999						
+	窒素	Nitrogen	サカヰ産業		その他：その他			局	医療用ガス	799	窒素	nitrogen（JP）	999999999999						
+	窒素	Nitrogen	サツマ酸素工業		その他：その他			局	医療用ガス	799	窒素	nitrogen（JP）	999999999999						
+	窒素	Nitrogen	山陰酸素工業		その他：その他			局	医療用ガス	799	窒素	nitrogen（JP）	999999999999						
+	窒素	Nitrogen	ゼネラルガスセンター		その他：その他			局	医療用ガス	799	窒素	nitrogen（JP）	999999999999						
+	窒素	Nitrogen	ダイオー		その他：その他			局	医療用ガス	799	窒素	nitrogen（JP）	999999999999						
+	窒素	Nitrogen	大陽日酸		その他：その他			局	医療用ガス	799	窒素	nitrogen（JP）	999999999999						
+	窒素	Nitrogen	大和酸素工業		その他：その他			局	医療用ガス	799	窒素	nitrogen（JP）	999999999999						
+	窒素	Nitrogen	大和熔材		その他：その他			局	医療用ガス	799	窒素	nitrogen（JP）	999999999999						
+	窒素	Nitrogen	高松帝酸		その他：その他			局	医療用ガス	799	窒素	nitrogen（JP）	999999999999						
+	窒素	Nitrogen	東京高圧山崎		その他：その他			局	医療用ガス	799	窒素	nitrogen（JP）	999999999999						
+	窒素	Nitrogen	東邦アセチレン		その他：その他			局	医療用ガス	799	窒素	nitrogen（JP）	999999999999						
+	窒素	Nitrogen	東洋高圧ガス		その他：その他			局	医療用ガス	799	窒素	nitrogen（JP）	999999999999						
+	窒素	Nitrogen	土佐酸素		その他：その他			局	医療用ガス	799	窒素	nitrogen（JP）	999999999999						
+	窒素	Nitrogen	名古屋酸素		その他：その他			局	医療用ガス	799	窒素	nitrogen（JP）	999999999999						
+	窒素	Nitrogen	浪速酸素		その他：その他			局	医療用ガス	799	窒素	nitrogen（JP）	999999999999						
+	窒素	Nitrogen	新潟アイ・ジー・エス		その他：その他			局	医療用ガス	799	窒素	nitrogen（JP）	999999999999						
+	窒素	Nitrogen	沼津酸素工業		その他：その他			局	医療用ガス	799	窒素	nitrogen（JP）	999999999999						
+	窒素	Nitrogen	東日本メディカルガス		その他：その他			局	医療用ガス	799	窒素	nitrogen（JP）	999999999999						
+	窒素	Nitrogen	東三河総合ガスセンター		その他：その他			局	医療用ガス	799	窒素	nitrogen（JP）	999999999999						
+	窒素	Nitrogen	百一酸素		その他：その他			局	医療用ガス	799	窒素	nitrogen（JP）	999999999999						
+	窒素	Nitrogen	福岡酸素		その他：その他			局	医療用ガス	799	窒素	nitrogen（JP）	999999999999						
+	窒素	Nitrogen	富士酸素工業		その他：その他			局	医療用ガス	799	窒素	nitrogen（JP）	999999999999						
+	窒素	Nitrogen	舞鶴大同ガス		その他：その他			局	医療用ガス	799	窒素	nitrogen（JP）	999999999999						
+	窒素	Nitrogen	松山酸素		その他：その他			局	医療用ガス	799	窒素	nitrogen（JP）	999999999999						
+	二酸化炭素	Carbon Dioxide	立川酸素		その他：その他			局	医療用ガス	799	二酸化炭素	carbon dioxide（JP）	999999999999						
+	二酸化炭素	Carbon dioxide	和歌山酸素		その他：その他			局	医療用ガス	799	二酸化炭素	carbon dioxide（JP）	999999999999						
+	二酸化炭素	Carbon Dioxide	福岡酸素		その他：その他			局	医療用ガス	799	二酸化炭素	carbon dioxide（JP）	999999999999						
+	二酸化炭素	Carbon Dioxide	伊藤忠工業ガス		その他：その他			局	医療用ガス	799	二酸化炭素	carbon dioxide（JP）	999999999999						
+	二酸化炭素	Carbon Dioxide	宇野酸素		その他：その他			局	医療用ガス	799	二酸化炭素	carbon dioxide（JP）	999999999999						
+	二酸化炭素	Carbon Dioxide	エア・ガシズ北九州		その他：その他			局	医療用ガス	799	二酸化炭素	carbon dioxide（JP）	999999999999						
+	二酸化炭素	Carbon Dioxide	オカノ		その他：その他			局	医療用ガス	799	二酸化炭素	carbon dioxide（JP）	999999999999						
+	二酸化炭素	Carbon Dioxide	岡谷酸素		その他：その他			局	医療用ガス	799	二酸化炭素	carbon dioxide（JP）	999999999999						
+	二酸化炭素	Carbon Dioxide	江藤酸素		その他：その他			局	医療用ガス	799	二酸化炭素	carbon dioxide（JP）	999999999999						
+	二酸化炭素	Carbon Dioxide	Kist		その他：その他			局	医療用ガス	799	二酸化炭素	carbon dioxide（JP）	999999999999						
+	二酸化炭素	Carbon Dioxide	協栄高圧ガス		その他：その他			局	医療用ガス	799	二酸化炭素	carbon dioxide（JP）	999999999999						
+	マルワ液酸	Liquid oxygen	和歌山酸素		液：その他				医療用ガス	799	酸素	oxygen（JP）	999999999999						
