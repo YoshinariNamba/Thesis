@@ -58,24 +58,6 @@ df_ndb_o_2014 <- df_ndb_o_2014_in %>%
 ### delete
 rm(list = c("df_ndb_o_2014_in", "df_ndb_o_2014_out", "df_ndb_o_2014_hos"))
 
-### ensure the difference in price
-df_ndb_o_2014 %>% 
-  filter(price_in != price_out) %>% 
-  nrow()
-
-df_ndb_o_2014 %>% 
-  filter(price_in != price_hos) %>% 
-  nrow()
-
-df_ndb_o_2014 %>% 
-  select(price_in, price_out, price_hos) %>% 
-  summary()
-
-df_ndb_o_2014 %>% 
-  select(price_in, price_out, price_hos) %>% 
-  na.omit() %>% 
-  summary()
-
 
 # parenteral --------------------------------------------------------------
 
