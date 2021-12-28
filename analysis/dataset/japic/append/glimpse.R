@@ -17,3 +17,11 @@ df_jpc %>%
 df_jpc %>% 
   select(2) %>% 
   na.omit()
+
+
+library(dlookr)
+library(naniar)
+
+
+df_jpc %>% diagnose()
+df_jpc %>% colnames()  

@@ -4,7 +4,7 @@ library(tidyverse)
 library(dlookr)
 
 # directory
-setwd("C:/Users/Namba Yoshinari/Documents/Github_Repositories/Thesis/analysis/dataset/shusai/append")
+setwd("./dataset/shusai/append")
 
 # source
 source("merge_2012.R")
@@ -29,3 +29,7 @@ rm(list = paste0("df_shusai_", seq(2012, 2020, by = 2)))
 # diagnose
 df_shusai %>% 
   diagnose()
+
+#
+setwd("C:/Users/Namba Yoshinari/Documents/Github_Repositories/Thesis/analysis")
+

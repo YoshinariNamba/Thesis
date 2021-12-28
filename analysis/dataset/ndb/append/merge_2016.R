@@ -182,7 +182,8 @@ rm(list = c("df_ndb_t_2016_in", "df_ndb_t_2016_out", "df_ndb_t_2016_hos"))
 ## merge 
 df_ndb_2016 <- df_ndb_o_2016 %>% 
   bind_rows(df_ndb_t_2016) %>% 
-  bind_rows(df_ndb_p_2016)
+  bind_rows(df_ndb_p_2016) %>% 
+  mutate(year = 2016)
 
 ## delete
 rm(list = c("df_ndb_o_2016", "df_ndb_t_2016", "df_ndb_p_2016"))
