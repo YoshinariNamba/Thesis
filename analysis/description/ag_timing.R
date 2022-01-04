@@ -6,11 +6,9 @@ library(magrittr)
 df_shusai <- readRDS("./output/data/shusai.rds")
 
 
-
 # create lists ------------------------------------------------------------
 
 ## code_shusai #############
-
 ### whole
 ls_code <- df_shusai %>% 
   filter(year == "2014") %>% 
@@ -59,7 +57,6 @@ ls_code_star <- df_shusai %>%
 
 
 ## firm ###############
-
 ### whole
 ls_firm <- df_shusai %>%
   filter(year == "2014") %>% 

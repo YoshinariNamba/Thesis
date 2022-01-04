@@ -5,7 +5,14 @@ library(magrittr)
 library(dlookr)
 
 ## read
+df_shusai <- readRDS("./output/data/shusai.rds")
 df_shusai_wide <- readRDS("./output/data/shusai_wide.rds")
+df_shusai_long <- readRDS("./output/data/shusai_long.rds")
+
+df_jpc <- readRDS("./output/data/japic.rds")
+df_ndb <- readRDS("./output/data/ndb.rds")
+
+df_lsfirm <- read.csv("./dataset/firm_list/firm_list.csv")
 
 ## summary
 df_shusai %>% diagnose()

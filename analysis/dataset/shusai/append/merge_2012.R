@@ -1,19 +1,15 @@
 
 # library
 library(tidyverse)
-library(dlookr)
-
-# directory
-setwd("C:/Users/Namba Yoshinari/Documents/Github_Repositories/Thesis/analysis/dataset/shusai/append")
 
 # read
-df_shusai_o_2012 <- read_csv(file = "../arranged/2012/shusai_o_2012.csv", 
+df_shusai_o_2012 <- read_csv(file = "./dataset/shusai/arranged/2012/shusai_o_2012.csv", 
                              locale = locale(encoding = "Shift-JIS"))
 
-df_shusai_p_2012 <- read_csv(file = "../arranged/2012/shusai_p_2012.csv", 
+df_shusai_p_2012 <- read_csv(file = "./dataset/shusai/arranged/2012/shusai_p_2012.csv", 
                              locale = locale(encoding = "Shift-JIS"))
 
-df_shusai_t_2012 <- read_csv(file = "../arranged/2012/shusai_t_2012.csv", 
+df_shusai_t_2012 <- read_csv(file = "./dataset/shusai/arranged/2012/shusai_t_2012.csv", 
                              locale = locale(encoding = "Shift-JIS"))
 
 # merge

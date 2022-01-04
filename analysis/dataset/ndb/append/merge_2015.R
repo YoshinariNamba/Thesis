@@ -1,16 +1,12 @@
+
 # library
 library(tidyverse)
-
-# directory
-setwd("C:/Users/Namba Yoshinari/Documents/Github_Repositories/Thesis/analysis/dataset/ndb/append")
-
-
 
 
 # oral --------------------------------------------------------------------
 
 ### read csv
-df_ndb_o_2015_in <- read_csv("../arranged/2015/ndb_o_2015_in.csv", 
+df_ndb_o_2015_in <- read_csv("./dataset/ndb/arranged/2015/ndb_o_2015_in.csv", 
                              locale = locale(encoding = "Shift-JIS")) %>% 
   rename(code_receipt = 1, 
          name = 2, 
@@ -20,7 +16,7 @@ df_ndb_o_2015_in <- read_csv("../arranged/2015/ndb_o_2015_in.csv",
          total_in = 6) %>% 
   mutate(total_in = as.numeric(str_replace_all(.$total_in, pattern = ",", replacement = "")), 
          form = "oral")
-df_ndb_o_2015_out <- read_csv("../arranged/2015/ndb_o_2015_out.csv", 
+df_ndb_o_2015_out <- read_csv("./dataset/ndb/arranged/2015/ndb_o_2015_out.csv", 
                               locale = locale(encoding = "Shift-JIS")) %>% 
   rename(code_receipt = 1, 
          name = 2, 
@@ -30,7 +26,7 @@ df_ndb_o_2015_out <- read_csv("../arranged/2015/ndb_o_2015_out.csv",
          total_out = 6) %>% 
   mutate(total_out = as.numeric(str_replace_all(.$total_out, pattern = ",", replacement = "")), 
          form = "oral")
-df_ndb_o_2015_hos <- read_csv("../arranged/2015/ndb_o_2015_hos.csv", 
+df_ndb_o_2015_hos <- read_csv("./dataset/ndb/arranged/2015/ndb_o_2015_hos.csv", 
                               locale = locale(encoding = "Shift-JIS")) %>% 
   rename(code_receipt = 1, 
          name = 2, 
@@ -64,7 +60,7 @@ rm(list = c("df_ndb_o_2015_in", "df_ndb_o_2015_out", "df_ndb_o_2015_hos"))
 
 
 ### read csv
-df_ndb_p_2015_in <- read_csv("../arranged/2015/ndb_p_2015_in.csv", 
+df_ndb_p_2015_in <- read_csv("./dataset/ndb/arranged/2015/ndb_p_2015_in.csv", 
                              locale = locale(encoding = "Shift-JIS")) %>% 
   rename(code_receipt = 1, 
          name = 2, 
@@ -74,7 +70,7 @@ df_ndb_p_2015_in <- read_csv("../arranged/2015/ndb_p_2015_in.csv",
          total_in = 6) %>% 
   mutate(total_in = as.numeric(str_replace_all(.$total_in, pattern = ",", replacement = "")), 
          form = "parenteral")
-df_ndb_p_2015_out <- read_csv("../arranged/2015/ndb_p_2015_out.csv", 
+df_ndb_p_2015_out <- read_csv("./dataset/ndb/arranged/2015/ndb_p_2015_out.csv", 
                               locale = locale(encoding = "Shift-JIS")) %>% 
   rename(code_receipt = 1, 
          name = 2, 
@@ -84,7 +80,7 @@ df_ndb_p_2015_out <- read_csv("../arranged/2015/ndb_p_2015_out.csv",
          total_out = 6) %>% 
   mutate(total_out = as.numeric(str_replace_all(.$total_out, pattern = ",", replacement = "")), 
          form = "parenteral")
-df_ndb_p_2015_hos <- read_csv("../arranged/2015/ndb_p_2015_hos.csv", 
+df_ndb_p_2015_hos <- read_csv("./dataset/ndb/arranged/2015/ndb_p_2015_hos.csv", 
                               locale = locale(encoding = "Shift-JIS")) %>% 
   rename(code_receipt = 1, 
          name = 2, 
@@ -118,7 +114,7 @@ rm(list = c("df_ndb_p_2015_in", "df_ndb_p_2015_out", "df_ndb_p_2015_hos"))
 # topical -----------------------------------------------------------------
 
 ### read csv
-df_ndb_t_2015_in <- read_csv("../arranged/2015/ndb_t_2015_in.csv", 
+df_ndb_t_2015_in <- read_csv("./dataset/ndb/arranged/2015/ndb_t_2015_in.csv", 
                              locale = locale(encoding = "Shift-JIS")) %>% 
   rename(code_receipt = 1, 
          name = 2, 
@@ -128,7 +124,7 @@ df_ndb_t_2015_in <- read_csv("../arranged/2015/ndb_t_2015_in.csv",
          total_in = 6) %>% 
   mutate(total_in = as.numeric(str_replace_all(.$total_in, pattern = ",", replacement = "")), 
          form = "topical")
-df_ndb_t_2015_out <- read_csv("../arranged/2015/ndb_t_2015_out.csv", 
+df_ndb_t_2015_out <- read_csv("./dataset/ndb/arranged/2015/ndb_t_2015_out.csv", 
                               locale = locale(encoding = "Shift-JIS")) %>% 
   rename(code_receipt = 1, 
          name = 2, 
@@ -138,7 +134,7 @@ df_ndb_t_2015_out <- read_csv("../arranged/2015/ndb_t_2015_out.csv",
          total_out = 6) %>% 
   mutate(total_out = as.numeric(str_replace_all(.$total_out, pattern = ",", replacement = "")), 
          form = "topical")
-df_ndb_t_2015_hos <- read_csv("../arranged/2015/ndb_t_2015_hos.csv", 
+df_ndb_t_2015_hos <- read_csv("./dataset/ndb/arranged/2015/ndb_t_2015_hos.csv", 
                               locale = locale(encoding = "Shift-JIS")) %>% 
   rename(code_receipt = 1, 
          name = 2, 

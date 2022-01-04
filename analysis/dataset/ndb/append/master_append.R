@@ -2,13 +2,9 @@
 # library
 library(tidyverse)
 
-# directory
-setwd("C:/Users/Namba Yoshinari/Documents/Github_Repositories/Thesis/analysis/dataset/ndb/append")
-
-
 # source
 for(i in 2014:2019){
-  source(paste0("merge_", i, ".R"))
+  source(paste0("./dataset/ndb/append/merge_", i, ".R"))
 }
 
 
@@ -29,4 +25,5 @@ df_ndb <- df_ndb_2014_15 %>%
 rm(list = c("df_ndb_2014", "df_ndb_2015", "df_ndb_2016", "df_ndb_2017", 
             "df_ndb_2018", "df_ndb_2019", "df_ndb_2014_15"))
 
-setwd("C:/Users/Namba Yoshinari/Documents/Github_Repositories/Thesis/analysis")
+# output
+write_rds(df_ndb, "./output/data/ndb.rds")

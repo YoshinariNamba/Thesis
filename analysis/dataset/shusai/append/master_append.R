@@ -1,17 +1,13 @@
 
 # library
 library(tidyverse)
-library(dlookr)
-
-# directory
-setwd("./dataset/shusai/append")
 
 # source
-source("merge_2012.R")
-source("merge_2014.R")
-source("merge_2016.R")
-source("merge_2018.R")
-source("merge_2020.R")
+source("./dataset/shusai/append/merge_2012.R")
+source("./dataset/shusai/append/merge_2014.R")
+source("./dataset/shusai/append/merge_2016.R")
+source("./dataset/shusai/append/merge_2018.R")
+source("./dataset/shusai/append/merge_2020.R")
 
 # append
 df_shusai <- df_shusai_2012  %>% 
@@ -26,10 +22,5 @@ df_shusai <- df_shusai_2012  %>%
 # delete 
 rm(list = paste0("df_shusai_", seq(2012, 2020, by = 2)))
 
-# diagnose
-df_shusai %>% 
-  diagnose()
-
-#
-setwd("C:/Users/Namba Yoshinari/Documents/Github_Repositories/Thesis/analysis")
-
+# output
+write_rds(df_shusai, "./output/data/shusai.rds")

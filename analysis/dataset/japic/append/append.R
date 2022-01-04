@@ -1,19 +1,19 @@
+
+# library
 library(tidyverse)
 library(magrittr)
 
-# directory
-setwd("C:/Users/Namba Yoshinari/Documents/Github_Repositories/Thesis/analysis/dataset/japic/append")
 
 # construct ---------------------------------------------------------------
 
 ## 2015
 ### read first file
-df_jpc_15 <- read.delim("../201507/h1.txt")
+df_jpc_15 <- read.delim("./dataset/japic/201507/h1.txt")
 
 ### loop reading and merging 
 for(i in 2:9){
   assign("df_tmp", 
-         read.delim(paste0("../201507/h", i, ".txt"))) 
+         read.delim(paste0("./dataset/japic/201507/h", i, ".txt"))) 
   df_jpc_15 <- df_jpc_15 %>% 
     rbind(df_tmp)
 }
@@ -28,12 +28,12 @@ df_jpc_15 <- df_jpc_15 %>%
 
 ## 2016
 ### read first file
-df_jpc_16 <- read.delim("../201607/h1.txt")
+df_jpc_16 <- read.delim("./dataset/japic/201607/h1.txt")
 
 ### loop reading and merging 
 for(i in 2:9){
   assign("df_tmp", 
-         read.delim(paste0("../201607/h", i, ".txt"))) 
+         read.delim(paste0("./dataset/japic/201607/h", i, ".txt"))) 
   df_jpc_16 <- df_jpc_16 %>% 
     rbind(df_tmp)
 }
@@ -49,12 +49,12 @@ df_jpc_16 <- df_jpc_16 %>%
 
 ## 2017
 ### read first file
-df_jpc_17 <- read.delim("../201707/h1.txt")
+df_jpc_17 <- read.delim("./dataset/japic/201707/h1.txt")
 
 ### loop reading and merging 
 for(i in 2:9){
   assign("df_tmp", 
-         read.delim(paste0("../201707/h", i, ".txt"))) 
+         read.delim(paste0("./dataset/japic/201707/h", i, ".txt"))) 
   df_jpc_17 <- df_jpc_17 %>% 
     rbind(df_tmp)
 }
@@ -70,12 +70,12 @@ df_jpc_17 <- df_jpc_17 %>%
 
 ## 2018
 ### read first file
-df_jpc_18 <- read.delim("../201807/h1.txt")
+df_jpc_18 <- read.delim("./dataset/japic/201807/h1.txt")
 
 ### loop reading and merging 
 for(i in 2:9){
   assign("df_tmp", 
-         read.delim(paste0("../201807/h", i, ".txt"))) 
+         read.delim(paste0("./dataset/japic/201807/h", i, ".txt"))) 
   df_jpc_18 <- df_jpc_18 %>% 
     rbind(df_tmp)
 }
@@ -89,12 +89,12 @@ df_jpc_18 <- df_jpc_18 %>%
 
 ## 2019
 ### read first file
-df_jpc_19 <- read.delim("../201907/h1.txt")
+df_jpc_19 <- read.delim("./dataset/japic/201907/h1.txt")
 
 ### loop reading and merging 
 for(i in 2:9){
   assign("df_tmp", 
-         read.delim(paste0("../201907/h", i, ".txt"))) 
+         read.delim(paste0("./dataset/japic/201907/h", i, ".txt"))) 
   df_jpc_19 <- df_jpc_19 %>% 
     rbind(df_tmp)
 }
@@ -110,12 +110,12 @@ df_jpc_19 <- df_jpc_19 %>%
 
 ## 2020
 ### read first file
-df_jpc_20 <- read.delim("../202007/h1.txt")
+df_jpc_20 <- read.delim("./dataset/japic/202007/h1.txt")
 
 ### loop reading and merging 
 for(i in 2:9){
   assign("df_tmp", 
-         read.delim(paste0("../202007/h", i, ".txt"))) 
+         read.delim(paste0("./dataset/japic/202007/h", i, ".txt"))) 
   df_jpc_20 <- df_jpc_20 %>% 
     rbind(df_tmp)
 }
@@ -131,12 +131,12 @@ df_jpc_20 <- df_jpc_20 %>%
 
 ## 2021
 ### read first file
-df_jpc_21 <- read.delim("../202107/h1.txt")
+df_jpc_21 <- read.delim("./dataset/japic/202107/h1.txt")
 
 ### loop reading and merging 
 for(i in 2:9){
   assign("df_tmp", 
-         read.delim(paste0("../202107/h", i, ".txt"))) 
+         read.delim(paste0("./dataset/japic/202107/h", i, ".txt"))) 
   df_jpc_21 <- df_jpc_21 %>% 
     rbind(df_tmp)
 }
@@ -186,7 +186,6 @@ df_jpc <- rbind(df_jpc_15, df_jpc_16, df_jpc_17, df_jpc_18,
 rm(list = c("df_jpc_15", "df_jpc_16", "df_jpc_17", "df_jpc_18", 
             "df_jpc_19", "df_jpc_20", "df_jpc_21"))
 
-
-# 
-setwd("C:/Users/Namba Yoshinari/Documents/Github_Repositories/Thesis/analysis")
+## output
+write_rds(df_jpc, "./output/data/japic.rds")
 

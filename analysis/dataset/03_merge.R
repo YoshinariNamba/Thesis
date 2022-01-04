@@ -3,10 +3,7 @@
 library(tidyverse)
 
 # source
-setwd("C:/Users/Namba Yoshinari/Documents/Github_Repositories/Thesis/analysis/dataset")
-source("./japic/append/append.R"); setwd("C:/Users/Namba Yoshinari/Documents/Github_Repositories/Thesis/analysis/dataset")
-source("./ndb/append/master_append.R"); setwd("C:/Users/Namba Yoshinari/Documents/Github_Repositories/Thesis/analysis/dataset")
-source("./shusai/append/master_append.R"); setwd("C:/Users/Namba Yoshinari/Documents/Github_Repositories/Thesis/analysis/dataset")
+source("./dataset/00_source.R")
 
 #
 df_merged <- df_ndb %>% 
