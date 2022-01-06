@@ -151,18 +151,11 @@ df_jpc_21 <- df_jpc_21 %>%
 
 # append ------------------------------------------------------------------
 
-## glimpse
-list_tmp <- list(df_jpc_15, df_jpc_16, df_jpc_17, df_jpc_18, 
-                 df_jpc_19, df_jpc_20, df_jpc_21)
-for(i in 1:length(2015:2019)){
-  print(colnames(list_tmp[[i]]))
-}
-rm(list_tmp)
-
-
 ## merge
-df_jpc <- rbind(df_jpc_15, df_jpc_16, df_jpc_17, df_jpc_18, 
-                df_jpc_19, df_jpc_20, df_jpc_21) %>% 
+df_jpc_raw <- rbind(df_jpc_15, df_jpc_16, df_jpc_17, df_jpc_18, 
+                    df_jpc_19, df_jpc_20, df_jpc_21)
+
+df_jpc <- df_jpc_raw %>% 
   rename(name = 3, 
          name_en = 4, 
          maker = 5, 
@@ -183,8 +176,13 @@ df_jpc <- rbind(df_jpc_15, df_jpc_16, df_jpc_17, df_jpc_18,
          line = 20, 
          inactive = 21) %>% 
   select(-2)
-rm(list = c("df_jpc_15", "df_jpc_16", "df_jpc_17", "df_jpc_18", 
-            "df_jpc_19", "df_jpc_20", "df_jpc_21"))
+
+### variable label
+lbl_jpc <- list(raw = colnames(df_jpc_raw), new = colnames(df_jpc))
+write_rds(lbl_jpc, "./output/data/japic_lbl.rds")
+
+### remove
+rm(list = c(paste0("df_jpc_", 15:21), "df_jpc_raw", "lbl_jpc"))
 
 ## output
 write_rds(df_jpc, "./output/data/japic.rds")

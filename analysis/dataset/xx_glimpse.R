@@ -1,11 +1,14 @@
 ## library
 library(tidyverse)
 library(magrittr)
+library(dlookr)
 
 ## option
-tibble_opt <- list("tibble.print_max" = 30, 
-                   "tibble.print_min" = 50)
-options(tibble_opt)
+options("tibble.print_min" = 30, 
+        "tibble.print_max" = 40)
+
+# old ---------------------------------------------------------------------
+
 
 ##
 df_01 <- read_csv("./data/tp20210218-01_01.csv", locale = locale(encoding = "Shift-Jis"))
@@ -103,8 +106,7 @@ df_tmp %>%
 
 
 
-# 2018 --------------------------------------------------------------------
-
+# 2018 
 # 2018年内服薬
 df_shusai <- read_csv("./data/shusai_2018.csv", locale = locale(encoding = "Shift-JIS")) %>% 
   select(-c(v1, v2, v3, note))
@@ -140,11 +142,7 @@ brand_list <- df_2018 %>%
   use_series(maker) %>% 
   unique()
 
-
-
-
-# merged ------------------------------------------------------------------
-
+# merged 
 df_merged %>% 
   select(price.x, price.y) %>% 
   head(30)
@@ -166,3 +164,156 @@ df_merged %>%
 
 
 df_tmp <- read.csv("C:/Users/Namba Yoshinari/Downloads/product.csv")
+
+
+
+# 20220105 ----------------------------------------------------------------
+
+## 01_01_cleaning_jpc
+df_jpc_cl %>% 
+  select(contains("form")) %>% 
+  map(unique)
+
+
+"form2" %>% str_extract("\\d")
+
+"2016.03.31" %>% class()
+c("2016.03.31", "2016.03.31") %>% ymd() %>% class()
+
+df_jpc_cl %>% 
+  select(note1) %>% 
+  map(unique)
+
+df_jpc_cl %>% 
+  filter(note1 == "代替品") %>% 
+  select(other, contains("note")) %>% 
+  head(15)
+
+
+df_jpc_cl %>% 
+  filter(note1 == "薬価削除") %>% 
+  select(other, contains("note")) %>% 
+  head(15)
+
+
+library(dlookr)
+df_jpc_cl %>% 
+  diagnose()
+df_jpc_cl %>% 
+  ggplot(aes(x = note2)) + 
+  geom_histogram()
+
+
+df_jpc_cl %>% 
+  select(eff, maker, maker_sale, eff, code_eff) %>% 
+  map(~summary(str_count(.x, pattern = "，")))
+
+
+df_jpc_cl %>% 
+  filter(str_detect(other, pattern = "薬価収載\\d+.\\d+.\\d+")) %>% 
+  mutate(year_list = str_extract(other, pattern = "薬価収載\\d+"), 
+         year_list = as.numeric(str_replace(year_list, pattern = "薬価収載", replacement = ""))) %>% 
+  select(year_list) %>% 
+  summary()
+
+df_jpc_cl3 %>% 
+  arrange(year, eff, maker) %>% 
+  distinct(year, eff, maker, .keep_all = TRUE) %>% 
+  ggplot(aes(x = N_brand)) + 
+  geom_histogram()
+  
+df_jpc_tmp <- 
+  df_jpc_sample %>% 
+  arrange(year, eff, maker) %>% 
+  distinct(year, eff, maker, .keep_all = TRUE)
+
+df_jpc_tmp %>%
+  filter(year == 2015) %>% 
+  ggplot(aes(x = as.factor(N_brand)) )+ 
+  geom_bar()
+
+df_jpc_tmp %>%
+  ggplot(aes(x = as.factor(N_ag)) )+ 
+  geom_bar()
+
+
+df_jpc_tmp %>% 
+  select(starts_with("N")) %>% 
+  summary()
+
+df_jpc_cl2 %>% 
+  select(year_listed) %>% 
+  with(hist(year_listed))
+
+
+## shusai
+df_shusai_cl %>% 
+  use_series(status) %>% 
+  unique()
+
+
+df_shusai_cl %>% 
+  mutate(other = str_replace(.$other, pattern = "H.\\d+.\\d+.\\d+収載", replacement = "XXX")) %>% 
+  filter(str_detect(other, pattern = "XXX")) %>% 
+  use_series(other) %>% 
+  unique()
+
+
+
+df_shusai_cl %>% 
+  select(year_list) %>% 
+  summary()
+
+df_jpc_cl2 %>% 
+  diagnose()
+df_jpc_cl2$brand %>% sum()
+df_jpc_cl2 %>% use_series(year) %>% unique()
+
+
+df_jpc_sample %>% 
+  use_series(maker) %>% 
+  unique() %>% 
+  sort()
+
+
+df_shusai_wide <- readRDS("./output/data/shusai_wide.rds")
+df_shusai_long <- readRDS("./output/data/shusai_long.rds")
+
+
+## firm list
+df_flist <- 
+  read.csv("./dataset/firm_list/firm_list.csv")
+
+ls_firm_br_flist <- 
+  df_flist %>% 
+  filter(brand > generic) %>%
+  mutate(pharma = stri_trans_nfkc(pharma), 
+         pharma = str_replace_all(pharma, pattern = "株式会社", replacement = ""), 
+         pharma = str_replace(pharma, pattern = " ", replacement = "")) %>% 
+  use_series(pharma) %>% 
+  unique() %>% 
+  sort()
+
+ls_firm_br_flist
+
+
+df_jpc_cl2 %>% 
+  filter(year == 2015) %>% 
+  select(eff, starts_with("N")) %>% 
+  with(hist(N_brand))
+
+
+ls_ag <- 
+  read_csv("./dataset/firm_list/ag_list.csv", locale = locale(encoding = "Shift_JIS")) %>% 
+  use_series(ag) %>% 
+  unique() %>% 
+  sort()
+
+ls_br_withAG <- 
+  read_csv("./dataset/firm_list/ag_list.csv", locale = locale(encoding = "Shift_JIS")) %>% 
+  use_series(brand) %>% 
+  unique() %>% 
+  sort()
+
+sum(df_jpc_sample$name %in% ls_ag)
+
