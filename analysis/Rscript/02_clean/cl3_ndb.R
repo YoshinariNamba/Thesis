@@ -4,7 +4,9 @@ library(tidyverse)
 library(stringi)
 
 # source
-source("./dataset/00_source.R")
+source("./Rscript/01_append/ap0_master.R")
+source("./Rscript/02_clean/cl1_shusai.R", encoding = "UTF-8")
+source("./Rscript/02_clean/cl2_japic.R", encoding = "UTF-8")
 
 df_jpc_tmp <- 
   df_jpc %>% 
@@ -19,7 +21,8 @@ df_ndb_cl <-
   mutate(name = stri_trans_nfkc(name)) %>% 
   mutate(brand = ifelse(code_shusai %in% ls_code_br, T, F), 
          ag = ifelse(name %in% ls_name_ag, T, F)) %>% 
-  left_join(df_jpc_tmp[, c(1, 4, 10, 14)], by = c("year" = "year", "code_shusai" = "code_yj")) %>% 
+  left_join(df_jpc_tmp[, c(1, 4, 10, 14)], 
+            by = c("year" = "year", "code_shusai" = "code_yj")) %>% 
   mutate(name2 = str_replace_all(name, pattern = "\\d+", ""), 
          name2 = str_replace_all(name2, pattern = "「\\w+」", ""), 
          name2 = str_extract(name2, pattern = "(\\p{Han}|\\p{Katakana}|\\p{Hiragana}|ー)+"))

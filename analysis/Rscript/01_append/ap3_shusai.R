@@ -3,11 +3,9 @@
 library(tidyverse)
 
 # source
-source("./dataset/shusai/append/merge_2012.R")
-source("./dataset/shusai/append/merge_2014.R")
-source("./dataset/shusai/append/merge_2016.R")
-source("./dataset/shusai/append/merge_2018.R")
-source("./dataset/shusai/append/merge_2020.R")
+for(i in seq(2012, 2020, by = 2)){
+  source(paste0("./Rscript/01_append/shusai/merge_", i, ".R"))
+}
 
 # append
 df_shusai <- df_shusai_2012  %>% 
@@ -19,8 +17,9 @@ df_shusai <- df_shusai_2012  %>%
   bind_rows(df_shusai_2020) %>% 
   filter(!is.na(code_shusai))
 
-# delete 
-rm(list = paste0("df_shusai_", seq(2012, 2020, by = 2)))
-
 # output
 write_rds(df_shusai, "./output/data/shusai.rds")
+
+# remove
+rm(list = ls())
+

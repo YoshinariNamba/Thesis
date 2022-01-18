@@ -3,8 +3,8 @@
 library(tidyverse)
 
 # source
-source("./dataset/00_source.R")
-source("./dataset/01_1_cleaning_shusai.R", encoding = "UTF-8")
+source("./Rscript/01_append/ap0_master.R")
+source("./Rscript/02_clean/cl2_japic.R", encoding = "UTF-8")
 
 #
 ## wider
@@ -37,7 +37,3 @@ df_jpc_long %>%
   geom_line(position = "identity", size = 1) + 
   geom_text(aes(label = N)) + 
   theme_minimal()
-
-
-
-

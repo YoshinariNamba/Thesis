@@ -5,7 +5,7 @@ library(stringi)
 library(magrittr)
 
 # source
-source("./dataset/00_source.R")
+source("./Rscript/01_append/ap0_master.R")
 
 # cleaning
 df_shusai_cl <- 

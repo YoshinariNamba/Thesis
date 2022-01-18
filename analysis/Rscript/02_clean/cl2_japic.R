@@ -5,8 +5,8 @@ library(lubridate)
 library(magrittr)
 
 # source
-source("./dataset/00_source.R")
-source("./dataset/01_1_cleaning_shusai.R", encoding = "UTF-8")
+source("./Rscript/01_append/ap0_master.R")
+source("./Rscript/02_clean/cl1_shusai.R", encoding = "UTF-8")
 
 # cleaning
 ## dataset which covers "oral" medicine listed "between 1990-2000"
@@ -28,7 +28,7 @@ df_jpc_cl1 <-
          price2 = str_split(price, pattern = "／", simplify = TRUE)[, 2]) %>% 
   mutate(price1 = str_replace(price1, pattern = ",", replacement = ""), 
          price1 = str_replace(price1, pattern = "円", replacement = ""), 
-         price1 = as.numeric(price1, ))
+         price1 = as.numeric(price1))
 
 
 df_jpc_cl2 <- 
