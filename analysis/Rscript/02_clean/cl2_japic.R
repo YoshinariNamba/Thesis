@@ -28,20 +28,18 @@ df_jpc_cl1 <-
          price2 = str_split(price, pattern = "／", simplify = TRUE)[, 2]) %>% 
   mutate(price1 = str_replace(price1, pattern = ",", replacement = ""), 
          price1 = str_replace(price1, pattern = "円", replacement = ""), 
-         price1 = as.numeric(price1))
+         price1 = as.numeric(price1)) %>% 
+  mutate(brand = ifelse(code_yj %in% ls_code_br_shusai, T, F)) %>%  # identify brand based on shusai 
+  mutate(year_listed = str_split(as.character(.$note2), pattern = "-", simplify = TRUE)[, 1], 
+         year_listed = as.numeric(year_listed)) %>% 
+  filter(eff != "", 
+         !str_detect(name, pattern = "削除品"))
 
 
 df_jpc_cl2 <- 
   df_jpc_cl1 %>% 
-  mutate(brand = ifelse(code_yj %in% ls_code_br, T, F)) %>%  
-  group_by(year, eff) %>% 
-  mutate(N_brand = length(unique(maker[brand])), 
-         N = length(unique(maker))) %>% 
-  ungroup() %>% 
-  mutate(year_listed = str_split(as.character(.$note2), pattern = "-", simplify = TRUE)[, 1], 
-         year_listed = as.numeric(year_listed)) %>% 
-  filter(is.na(year_listed) | year_listed < 2005) %>% 
-  filter(!is.na(year_listed) & year_listed > 1990) %>% 
+  filter(is.na(year_listed) | year_listed <= 2010) %>% 
+  filter(!is.na(year_listed) & year_listed >= 1990) %>% 
   arrange(year, eff, form)
 
 
@@ -49,7 +47,7 @@ df_jpc_cl2 <-
 
 ls_code_br_smpl <- 
   df_jpc_cl2 %>% 
-  filter(year == 2015, brand) %>% 
+  filter(brand) %>% 
   use_series(code_yj) %>% 
   unique() %>% 
   sort()
@@ -76,7 +74,7 @@ ls_name_ag <-
 df_jpc_smpl <- 
   df_jpc_cl1 %>% 
   filter(eff %in% ls_eff_smpl) %>% 
-  mutate(brand = ifelse(code_yj %in% ls_code_br, T, F), 
+  mutate(brand = ifelse(code_yj %in% ls_code_br_smpl, T, F), 
          ag = ifelse(name %in% ls_name_ag, T, F)) %>%  
   group_by(year, eff) %>% 
   mutate(N_brand = length(unique(maker[brand])), 
@@ -93,7 +91,7 @@ df_jpc_smpl <-
 df_jpc_plt <- 
   df_jpc_cl1 %>% 
   filter(eff %in% ls_eff_smpl) %>% 
-  mutate(brand = ifelse(code_yj %in% ls_code_br, T, F), 
+  mutate(brand = ifelse(code_yj %in% ls_code_br_smpl, T, F), 
          ag = ifelse(name %in% ls_name_ag, T, F)) %>%  
   group_by(year, eff) %>% 
   summarize(N_brand = length(unique(maker[brand])), 

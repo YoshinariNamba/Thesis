@@ -24,7 +24,7 @@ df_shusai_2016 <- df_shusai_o_2016 %>%
          maker = 9, 
          generic = 10, 
          brand = 11, 
-         ag = 12, 
+         same_form = 12, 
          price = 13, 
          dl = 14, 
          other = 15) %>% 

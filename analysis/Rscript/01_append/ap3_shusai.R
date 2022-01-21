@@ -9,7 +9,7 @@ for(i in seq(2012, 2020, by = 2)){
 
 # append
 df_shusai <- df_shusai_2012  %>% 
-  mutate(ag = "missing", 
+  mutate(same_form = "missing", 
          brand = "missing") %>% 
   bind_rows(df_shusai_2014) %>% 
   bind_rows(df_shusai_2016) %>% 

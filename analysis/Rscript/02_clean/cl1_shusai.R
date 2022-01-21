@@ -20,12 +20,10 @@ df_shusai_cl <-
 
 # create lists
 ## code
-ls_code_br <- 
+ls_code_br_shusai <- 
   df_shusai %>% 
-  filter(year == 2014, 
-         is.na(other) | !str_detect(other, pattern = "H\\d+.\\d+.\\d+"), 
-         brand == "先発品", 
-         form == "内用薬") %>% 
+  filter(year > 2012, 
+         brand == "先発品") %>% 
   use_series(code_shusai) %>% 
   unique() %>% 
   sort()
