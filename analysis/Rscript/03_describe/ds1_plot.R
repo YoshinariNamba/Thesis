@@ -9,6 +9,18 @@ source("./Rscript/02_clean/cl2_japic.R", encoding = "UTF-8")
 
 # time series -------------------------------------------------------------
 
+#
+## plot
+df_jpc_plt <- 
+  df_jpc_smpl %>% 
+  group_by(year, eff) %>% 
+  summarize(N_brand = length(unique(maker[brand])), 
+            N_ag = length(unique(maker[ag])),
+            N_firm = length(unique(maker)), 
+            N_gen = N_firm - N_brand, 
+            .groups = "drop") %>% 
+  arrange(year, eff)
+
 ## wider
 df_jpc_wide <- 
   df_jpc_plt %>% 
@@ -166,7 +178,7 @@ df_jpc_tmp_view <-
   ungroup() %>% 
   select(year, code_yj, name, maker, eff, name_g, year_listed, brand, form1, form2) %>% 
   arrange(eff, year, !brand, year_listed) %>% 
-  filter(eff == "細胞外液補充液") 
+  filter(eff == "選択的β1-アンタゴニスト") 
 
 df_shusai %>% 
   filter(code_shusai %in% c("3319563A2031", "3319557A1030")) %>% 
