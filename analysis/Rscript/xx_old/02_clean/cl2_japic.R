@@ -5,11 +5,12 @@ library(lubridate)
 library(magrittr)
 
 # source
-source("./Rscript/01_append/ap0_master.R")
-source("./Rscript/02_clean/cl1_shusai.R", encoding = "UTF-8")
+#source("./Rscript/01_append/ap0_master.R")
+#source("./Rscript/02_clean/cl1_shusai.R", encoding = "UTF-8")
 
 
-# cleaning ----------------------------------------------------------------
+
+# preparation -------------------------------------------------------------
 
 ## ag list
 ls_name_ag <- 
@@ -18,6 +19,13 @@ ls_name_ag <-
   unique() %>% 
   sort()
 
+## define term to analyze
+if(! "FnlYear_exante" %in% ls() && ! "IntYear_expost" %in% ls()){
+  FnlYear_exante <- 2014 # final year in ex ante term
+  IntYear_expost <- 2017 # initial year in ex post term
+}
+
+# cleaning ----------------------------------------------------------------
 
 ## dataset where 削除品 and effect missing obs are omitted
 df_jpc_cl1 <- 
@@ -49,7 +57,7 @@ df_jpc_cl1 <-
   ## omit 削除品
   filter(eff != "", 
          !str_detect(name, pattern = "削除品")) %>%
-  ## extract values related to aggregated price and sales
+  ## extract values that will be used to aggregate price and sales based on strength
   mutate(unit_tmp = str_replace_all(unit, "0\\.", ""), 
          unit_tmp = str_replace_all(unit_tmp, "\\.\\d+", ""), 
          unit_tmp = str_replace_all(unit_tmp, ",", ""),
@@ -64,19 +72,57 @@ df_jpc_cl1 <-
          num_in_unit2_tmp = ifelse(is.na(num_in_unit1), 1, num_in_unit2), 
          num_in_unit1 = num_in_unit1_tmp, 
          num_in_unit2 = num_in_unit2_tmp) %>% 
-  select(-c(num_in_unit1_tmp, num_in_unit2_tmp)) 
+  select(-c(num_in_unit1_tmp, num_in_unit2_tmp)) %>% 
+  mutate(inactive = ifelse(inactive == "", NA, inactive))
 
-## dataset includes medicine listed 1990 - 2012
+
+# listed lag --------------------------------------------------------------
+
+# lag
+df_listlag <- 
+  df_jpc_cl1 %>% 
+  filter(year == 2021) %>% 
+  # filter(!note1 %in% c("薬価削除", "薬価削除予定")) %>% 
+  mutate(
+    remove_id = case_when(
+      note1 == "薬価収載" ~ T, 
+      note1 != "薬価収載" | is.na(note1) ~ F
+    )
+  ) %>% 
+  group_by(eff) %>% 
+  filter(
+    #!anyNA(year_listed),
+    n() == sum(remove_id), 
+    sum(brand) > 0, 
+    sum(!brand) > 0
+  ) %>% 
+  summarise(
+    listed_brand = min(year_listed[brand]), 
+    listed_generic = min(year_listed[!brand]), 
+    .groups = "drop"
+  ) %>% 
+  mutate(listed_lag = listed_generic - listed_brand) %>% 
+  arrange(listed_lag) 
+
+# mean value
+listlag_mean <- 
+  df_listlag$listed_lag %>% 
+  mean() %>% 
+  round()
+
+
+
+# sample selection --------------------------------------------------------
+
+## dataset includes medicine listed 1990 ~ (IntYear_expost - listlag_mean)
 df_jpc_cl2 <- 
   df_jpc_cl1 %>% 
   # omit obs listed after 2013
-  filter(is.na(year_listed) | year_listed <= 2012) %>% 
+  filter(is.na(year_listed) | year_listed <= IntYear_expost - listlag_mean) %>% 
   # omit obs lister before 1990
   filter(!is.na(year_listed) & year_listed >= 1990) %>% 
   arrange(year, eff, form)
 
-
-# list --------------------------------------------------------------------
 
 ## brand drugs' list to be analyzed
 ls_code_br_smpl <- 
@@ -96,9 +142,6 @@ ls_eff_smpl <-
   unique() %>% 
   sort()
 
-
-# sample ------------------------------------------------------------------
-
 ## unit of obs is "year * eff * maker"
 df_jpc_smpl <- 
   df_jpc_cl1 %>% 
@@ -112,6 +155,16 @@ df_jpc_smpl <-
          note1 != "薬価削除", 
          form2 == "内服") %>% 
   select(- old_identity) %>% 
+  # detect first firm that marketed the brand
+  group_by(year, eff) %>% 
+  mutate(
+    first_brand = case_when(
+      sum(brand) == 0 ~ F, 
+      brand & note2 == min(note2[brand], na.rm = T) ~ T, 
+      !brand | note2 != min(note2[brand], na.rm = T) | is.na(note2) ~ F
+    )
+  ) %>% 
+  ungroup() %>% 
   # aggregate price
   arrange(eff, year, form, brand, ag) %>% 
   ## construct weight
@@ -119,24 +172,39 @@ df_jpc_smpl <-
   group_by(year, eff, maker, brand, ag) %>% 
   summarize(
     price_sum = weighted.mean(price1, w = num_in_unit1/num_in_unit2), 
-    .groups = "drop")
+    brand_first = ifelse(sum(first_brand) > 0, T, F), 
+    form_variety = length(unique(form1)), 
+    active_variety = length(unique(name_g)), 
+    inactive_variety = length(unique(as.vector(str_split(inactive[!is.na(inactive)], "，", simplify = T)))), 
+    subst = length(unique(code_eff)) - 1, 
+    .groups = "drop"
+  )
 
 ## unit of obs is "eff" (wide form data frame with respect to "year")
 df_jpc_smpl_agg <- 
   df_jpc_smpl %>% 
+  arrange(year, eff, maker) %>% 
   # count brand, AG, and total entrants
   group_by(year, eff) %>% 
   summarise(
     N_total = n(), 
     N_brand = sum(brand), 
     N_ag = sum(ag), 
+    #N_incumbent = sum(brand), 
+    #N_incumbent_first = sum(brand_first), 
+    #incumbent = str_flatten(sort(maker[brand]), collapse = "-"), 
+    #incumbent_first = str_flatten(sort(maker[brand_first]), collapse = "-"), 
     .groups = "drop"
   ) %>% 
   # remove markets any generics has already entered
   mutate(N_generic = N_total - N_brand) %>% 
-  filter(N_brand > 0) %>% 
-  # transform long-formed dataa frame into wide-formed one
-  pivot_wider(id_cols = c(eff), 
+  filter(N_brand > 0, 
+         year <= 2019, 
+         year >= IntYear_expost) %>% 
+  # transform long-formed data frame into wide-formed one
+  pivot_wider(id_cols = c(eff#, 
+                          #contains("incumbent")
+                          ), 
               names_from = year, 
               names_glue = "{.value}_{year}", 
               values_from = c(N_total, N_brand, N_generic, N_ag)) %>% 

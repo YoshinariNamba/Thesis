@@ -5,8 +5,7 @@ library(stargazer)
 
 # data
 df_sample <- 
-  read_rds("./output/data/sample.rds") %>% 
-  select(-c(entry_dummy))
+  read_rds("./output/data/sample.rds")
 
 # summary stats
 df_sample %>% 

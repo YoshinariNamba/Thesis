@@ -27,7 +27,7 @@ if(! "FnlYear_exante" %in% ls() && ! "IntYear_expost" %in% ls()){
 
 # cleaning ----------------------------------------------------------------
 
-## dataset where 削除品 and effect missing obs are omitted
+## dataset where 削除品 (and effect missing obs) are omitted
 df_jpc_cl1 <- 
   df_jpc %>% 
   ## split form 
@@ -55,7 +55,7 @@ df_jpc_cl1 <-
   mutate(brand = ifelse(code_yj %in% ls_code_br_shusai, T, F),
          ag = ifelse(name %in% ls_name_ag, T, F)) %>% 
   ## omit 削除品
-  filter(eff != "", 
+  filter(#eff != "", 
          !str_detect(name, pattern = "削除品")) %>%
   ## extract values that will be used to aggregate price and sales based on strength
   mutate(unit_tmp = str_replace_all(unit, "0\\.", ""), 
@@ -89,7 +89,7 @@ df_listlag <-
       note1 != "薬価収載" | is.na(note1) ~ F
     )
   ) %>% 
-  group_by(eff) %>% 
+  group_by(name_g) %>% 
   filter(
     #!anyNA(year_listed),
     n() == sum(remove_id), 
@@ -121,7 +121,7 @@ df_jpc_cl2 <-
   filter(is.na(year_listed) | year_listed <= IntYear_expost - listlag_mean) %>% 
   # omit obs lister before 1990
   filter(!is.na(year_listed) & year_listed >= 1990) %>% 
-  arrange(year, eff, form)
+  arrange(year, name_g, form)
 
 
 ## brand drugs' list to be analyzed
@@ -133,22 +133,22 @@ ls_code_br_smpl <-
   unique() %>% 
   sort()
 
-## effect list to be analyzed
-ls_eff_smpl <- 
+## active ingredient (generic name) list to be analyzed
+ls_active_smpl <- 
   df_jpc_cl2 %>% 
-  # extract effecs included in brand drug to be analyzed
+  # extract active ingredient included in brand drug to be analyzed
   filter(code_yj %in% ls_code_br_smpl) %>% 
-  use_series(eff) %>% 
+  use_series(name_g) %>% 
   unique() %>% 
   sort()
 
-## unit of obs is "year * eff * maker"
+## unit of obs is "year * name_g * maker"
 df_jpc_smpl <- 
   df_jpc_cl1 %>% 
-  # extract effect to be analyzed
-  filter(eff %in% ls_eff_smpl) %>%  
+  # extract active ingredient to be analyzed
+  filter(name_g %in% ls_active_smpl) %>%  
   # omit old market, medicine scheduled to be removed, other than 内用薬
-  group_by(year, eff) %>% 
+  group_by(year, name_g) %>% 
   mutate(old_identity = if_else(anyNA(note1), T, F)) %>% 
   ungroup() %>% 
   filter(!old_identity, 
@@ -156,7 +156,7 @@ df_jpc_smpl <-
          form2 == "内服") %>% 
   select(- old_identity) %>% 
   # detect first firm that marketed the brand
-  group_by(year, eff) %>% 
+  group_by(year, name_g) %>% 
   mutate(
     first_brand = case_when(
       sum(brand) == 0 ~ F, 
@@ -166,26 +166,25 @@ df_jpc_smpl <-
   ) %>% 
   ungroup() %>% 
   # aggregate price
-  arrange(eff, year, form, brand, ag) %>% 
+  arrange(name_g, year, form, brand, ag) %>% 
   ## construct weight
   mutate(num_in_unit2 = ifelse(is.na(num_in_unit2), 1, num_in_unit2)) %>% 
-  group_by(year, eff, maker, brand, ag) %>% 
+  group_by(year, name_g, maker, brand, ag) %>% 
   summarize(
     price_sum = weighted.mean(price1, w = num_in_unit1/num_in_unit2), 
     brand_first = ifelse(sum(first_brand) > 0, T, F), 
-    form_variety = length(unique(form1)), 
-    active_variety = length(unique(name_g)), 
-    inactive_variety = length(unique(as.vector(str_split(inactive[!is.na(inactive)], "，", simplify = T)))), 
-    subst = length(unique(code_eff)) - 1, 
+    #form_variety = length(unique(form1)), 
+    #inactive_variety = length(unique(as.vector(str_split(inactive[!is.na(inactive)], "，", simplify = T)))), 
+    #subst = length(unique(eff)) - 1, 
     .groups = "drop"
   )
 
-## unit of obs is "eff" (wide form data frame with respect to "year")
+## unit of obs is "name_g" (wide form data frame with respect to "year")
 df_jpc_smpl_agg <- 
   df_jpc_smpl %>% 
-  arrange(year, eff, maker) %>% 
+  arrange(year, name_g, maker) %>% 
   # count brand, AG, and total entrants
-  group_by(year, eff) %>% 
+  group_by(year, name_g) %>% 
   summarise(
     N_total = n(), 
     N_brand = sum(brand), 
@@ -202,7 +201,7 @@ df_jpc_smpl_agg <-
          year <= 2019, 
          year >= IntYear_expost) %>% 
   # transform long-formed data frame into wide-formed one
-  pivot_wider(id_cols = c(eff#, 
+  pivot_wider(id_cols = c(name_g#, 
                           #contains("incumbent")
                           ), 
               names_from = year, 

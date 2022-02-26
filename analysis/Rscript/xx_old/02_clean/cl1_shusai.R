@@ -22,6 +22,7 @@ df_shusai_cl <-
 ## code
 ls_code_br_shusai <- 
   df_shusai %>% 
+  # use 2014 ~ because data of 2012 does not cover brand ID
   filter(year > 2012, 
          brand == "先発品") %>% 
   use_series(code_shusai) %>% 

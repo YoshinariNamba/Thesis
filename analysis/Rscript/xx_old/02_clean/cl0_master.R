@@ -3,8 +3,8 @@
 library(tidyverse)
 
 ## define term 
-#FnlYear_exante <- 2014 # final year in ex ante term
-#IntYear_expost <- 2016 # initial year in ex post term
+FnlYear_exante <- 2014 # final year in ex ante term
+IntYear_expost <- 2016 # initial year in ex post term
 
 # source
 source("./Rscript/01_append/ap0_master.R", encoding = "UTF-8")

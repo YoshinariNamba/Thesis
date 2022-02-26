@@ -10,7 +10,7 @@ df_exante <-
   filter(year == 2015) %>% 
   filter(note1 == "薬価収載", 
          year_listed <= FnlYear_exante) %>% 
-  group_by(name_g) %>% 
+  group_by(eff) %>% 
   mutate(
     ag_dummy = ifelse(sum(ag) > 0, 1, 0)
   ) %>% 
@@ -35,11 +35,11 @@ df_recept_exante <-
   df_ndb_cl %>% 
   # fix year for controlling market sizes  
   filter(year == FnlYear_exante) %>% 
-  # label generic name based on df_jpc
-  inner_join(df_code_active, by = c("code_shusai" = "code_yj")) %>% 
+  # label eff name based on df_jpc
+  inner_join(df_code_eff, by = c("code_shusai" = "code_yj")) %>% 
   # extract brand drug that is included in the sample
   filter(code_shusai %in% ls_code_br_exante) %>% 
-  arrange(name_g, -total) %>% 
+  arrange(eff, -total) %>% 
   select(code_shusai, contains("total"))
 
 
@@ -62,9 +62,6 @@ df_exante_brand_merged <-
   ) %>% 
   mutate(total = total_in + total_out + total_hos) %>% 
   group_by(eff) %>% 
-  mutate(subst = length(unique(name_g)) - 1) %>% 
-  ungroup() %>% 
-  group_by(name_g) %>% 
   summarise(
     AG_entry = ifelse(sum(ag_dummy) > 0, 1, 0), 
     N_incumbent = length(unique(maker)), 
@@ -81,11 +78,11 @@ df_exante_brand_merged <-
     #n_maker = length(unique(maker[form2 == "内服"])), 
     #maker = str_flatten(sort(unique(maker[form2 == "内服"])), collapse = "-"), 
     form_variety = length(unique(form1)), 
+    active_variety = length(unique(name_g)), 
     inactive_variety = length(unique(as.vector(str_split(inactive[!is.na(inactive)], "，", simplify = T)))), 
-    subst = unique(subst), 
+    subst = length(unique(code_eff)) - 1, 
     .groups = "drop"
-  ) %>% 
-  na.omit()
+  ) 
 
 
 
@@ -94,7 +91,7 @@ df_exante_brand_merged <-
 
 df_sample_exante <- 
   df_exante_brand_merged %>% 
-  rename(active = name_g, 
+  rename(effectiveness = eff, 
          price = price1, 
          substitute = subst) %>% 
   mutate(
@@ -103,107 +100,32 @@ df_sample_exante <-
     ln_revenue = log(price*total), 
     ln_revenue_hos = log(price*total_hos)
   ) %>% 
-  select(active, incumbent, AG_entry, c(N_incumbent, N_inc_over2, N_inc_over3), 
+  select(effectiveness, incumbent, AG_entry, c(N_incumbent, N_inc_over2, N_inc_over3), 
          c(price, ln_revenue, ln_revenue_hos), c(capsule, tablet, granule, siroop, liquid), 
-         c(form_variety, inactive_variety, substitute))
+         c(form_variety, active_variety, inactive_variety, substitute))
 
 
 
 # estimation --------------------------------------------------------------
 
 # estimation
-#mdl_belief <- 
-#  glm(formula = AG_entry ~ ln_revenue + ln_revenue:N_incumbent + 
-#        ln_revenue_hos + ln_revenue_hos:N_incumbent + price + 
-#        capsule + tablet + granule + siroop + liquid + 
-#        form_variety + inactive_variety + substitute, 
-#      data = df_sample_exante, 
-#      family = binomial(link = "probit"))
+mdl_belief <- 
+  glm(formula = AG_entry ~ ln_revenue + ln_revenue:N_incumbent + 
+        ln_revenue_hos + ln_revenue_hos:N_incumbent + price + 
+        capsule + tablet + granule + siroop + liquid + 
+        form_variety + active_variety + inactive_variety + substitute, 
+      data = df_sample_exante, 
+      family = binomial(link = "probit"))
+
+mdl_belief2 <- 
+  glm(formula = AG_entry ~ ln_revenue + ln_revenue:N_incumbent + price + 
+        incumbent + incumbent:ln_revenue + incumbent:price, 
+      data = df_sample_exante, 
+      family = binomial(link = "probit"))
 
 
 # predicted belief
-#vec_belief <- predict(mdl_belief, df_sample_pre, type = "response") 
-
-
-### incumbents vector ####
-vec_inc_pre <- 
-  df_sample_pre %>% 
-  pull(incumbent) %>% 
-  str_split("-", simplify = T) %>% 
-  as.vector() %>% 
-  unique() %>% 
-  sort %>% 
-  .[. != ""]
-
-vec_inc_exante <- 
-  df_sample_exante %>% 
-  pull(incumbent) %>% 
-  str_split("-", simplify = T) %>% 
-  as.vector() %>% 
-  unique() %>% 
-  sort() %>% 
-  .[. != ""]
-
-## difference is NULL
-setdiff(vec_inc_pre, vec_inc_exante)
-
-
-## create dummy ####
-### ex ante dataset
-df_sample_exante_dum <- 
-  df_sample_exante
-
-for(i in 1:length(vec_inc_pre)){
-  df_sample_exante_dum <- 
-    df_sample_exante_dum %>% 
-    mutate(
-      "incumbent_dum{i}" := 
-        case_when(
-          str_detect(incumbent, pattern = vec_inc_pre[i]) ~ 1,
-          !str_detect(incumbent, pattern = vec_inc_pre[i]) ~ 0
-        )
-    )
-}
-
-### ex post dataset
-df_sample_dum <- 
-  df_sample_pre
-
-for(i in 1:length(vec_inc_pre)){
-  df_sample_dum <- 
-    df_sample_dum %>% 
-    mutate(
-      "incumbent_dum{i}" := 
-        case_when(
-          str_detect(incumbent, pattern = vec_inc_pre[i]) ~ 1,
-          !str_detect(incumbent, pattern = vec_inc_pre[i]) ~ 0
-        )
-    )
-}
-
-## define formula
-fml <- as.formula(paste("AG_entry ~ ", 
-                        paste(c("ln_revenue", "ln_revenue:N_incumbent", 
-                                "ln_revenue_hos", "ln_revenue_hos:N_incumbent", 
-                                "price", "capsule", "tablet", "granule", 
-                                "siroop", "liquid", "form_variety", 
-                                "inactive_variety", "substitute", 
-                                paste0("incumbent_dum", 1:length(vec_inc_pre))), 
-                              collapse = "+")))
-
-## implement probit estimation
-mdl_belief <- 
-  glm(formula = fml, 
-      data = df_sample_exante_dum, 
-      family = binomial(link = "probit"))
-
-mdl_belief %>% summary()
-
-## predict
-vec_belief <- predict(mdl_belief, df_sample_dum, type = "response") 
-
-
-# complete data -----------------------------------------------------------
+vec_belief <- predict(mdl_belief, df_sample_pre, type = "response") 
 
 # merge
 df_sample <-

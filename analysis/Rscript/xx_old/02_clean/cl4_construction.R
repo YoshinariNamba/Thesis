@@ -12,23 +12,23 @@ library(tidyverse)
 # construction ------------------------------------------------------------
 
 ## combination of code and active ingredient
-df_code_active <- 
+df_code_eff <- 
   df_jpc %>% 
-  #filter(eff != "") %>% 
-  select(code_yj, name_g) %>% 
-  arrange(code_yj, name_g) %>% 
-  distinct(code_yj, name_g)
+  filter(eff != "") %>% 
+  select(code_yj, eff) %>% 
+  arrange(code_yj, eff) %>% 
+  distinct(code_yj, eff)
 
 ## combination of code and quantity as of 2014
 df_recept <- 
   df_ndb_cl %>% 
   # fix year for controlling market sizes  
   filter(year == FnlYear_exante) %>% 
-  # label generic name based on df_jpc
-  inner_join(df_code_active, by = c("code_shusai" = "code_yj")) %>% 
+  # label eff name based on df_jpc
+  inner_join(df_code_eff, by = c("code_shusai" = "code_yj")) %>% 
   # extract brand drug that is included in the sample
   filter(code_shusai %in% ls_code_br_smpl) %>% 
-  arrange(name_g, -total) %>% 
+  arrange(eff, -total) %>% 
   select(code_shusai, contains("total"))
 
 ## combination of firm and count of AG marketed
@@ -36,13 +36,13 @@ df_AGrecord <-
   df_jpc_cl1 %>% 
   filter(year == 2015) %>% 
   # identify markets with AG marketed
-  group_by(name_g) %>% 
+  group_by(eff) %>% 
   filter(min(year_listed, na.rm = TRUE) <= FnlYear_exante | is.na(year_listed)) %>% 
   mutate(ag_record = ifelse(sum(ag) > 0, T, F)) %>% 
   ungroup() %>% 
   # count AG by firm
   group_by(maker) %>% 
-  summarise(ag_record = length(unique(name_g[ag_record])), 
+  summarise(ag_record = length(unique(eff[ag_record])), 
             .groups = "drop") 
   
 
@@ -65,9 +65,6 @@ df_jpc_br_merged <-
   ) %>% 
   mutate(total = total_in + total_out + total_hos) %>% 
   group_by(eff) %>% 
-  mutate(subst = length(unique(name_g)) - 1) %>% 
-  ungroup() %>% 
-  group_by(name_g) %>% 
   summarise(
     N_incumbent = length(unique(maker)), 
     incumbent = str_flatten(sort(unique(maker)), collapse = "-"), 
@@ -83,8 +80,9 @@ df_jpc_br_merged <-
     #n_maker = length(unique(maker[form2 == "内服"])), 
     #maker = str_flatten(sort(unique(maker[form2 == "内服"])), collapse = "-"), 
     form_variety = length(unique(form1)), 
+    active_variety = length(unique(name_g)), 
     inactive_variety = length(unique(as.vector(str_split(inactive[!is.na(inactive)], "，", simplify = T)))), 
-    subst = unique(subst), 
+    subst = length(unique(code_eff)) - 1, 
     .groups = "drop"
   ) #%>% 
   #filter(maker != "") %>% 
@@ -93,9 +91,9 @@ df_jpc_br_merged <-
   
 
 ## sample
-df_active <- 
+df_eff <- 
   df_jpc_smpl_agg %>% 
-  inner_join(df_jpc_br_merged, by = c("name_g" = "name_g")) %>% 
+  inner_join(df_jpc_br_merged, by = c("eff" = "eff")) %>% 
   rename(
     Initial_genric = paste0("N_generic_", IntYear_expost), 
     Initial_ag = paste0("N_ag_", IntYear_expost), 
