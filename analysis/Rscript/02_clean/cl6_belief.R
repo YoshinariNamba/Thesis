@@ -61,18 +61,45 @@ df_exante_brand_merged <-
     )
   ) %>% 
   mutate(total = total_in + total_out + total_hos) %>% 
+  mutate(
+    across(
+      .cols = contains("total"), 
+      .fns = ~ (.x * price1), 
+      .names = "revenue_{.col}"
+    )
+  ) %>% 
   group_by(eff) %>% 
-  mutate(subst = length(unique(name_g)) - 1) %>% 
+  mutate(
+    subst_act = length(unique(name_g)) - 1, 
+    subst_inc = length(unique(maker)), 
+    subst_rev = sum(revenue_total) - revenue_total, 
+    subst_rev_in = sum(revenue_total_in) - revenue_total_in, 
+    subst_rev_out = sum(revenue_total_out) - revenue_total_out, 
+    subst_rev_hos = sum(revenue_total_hos) - revenue_total_hos
+  ) %>% 
   ungroup() %>% 
   group_by(name_g) %>% 
   summarise(
+    # entrant and incumbent
     AG_entry = ifelse(sum(ag_dummy) > 0, 1, 0), 
     N_incumbent = length(unique(maker)), 
     incumbent = str_flatten(sort(unique(maker)), collapse = "-"), 
     #ag_record = sum(aggregate(x = ag_record, by = list(maker), FUN = mean)$x), 
-    across(.cols = c(price1, contains("total")), 
-           .fns = ~weighted.mean(.x, w = num_in_unit1/num_in_unit2), 
-           .names = "{.col}"), 
+    # across(.cols = c(price1, contains("total")), 
+    #        .fns = ~weighted.mean(.x, w = num_in_unit1/num_in_unit2), 
+    #        .names = "{.col}"), 
+    
+    # price
+    price = weighted.mean(price1, w = num_in_unit1/num_in_unit2), 
+    
+    # revenue
+    across(
+      .cols = contains("revenue"), 
+      .fns = ~sum(.x), 
+      .names = "{.col}"
+    ), 
+    
+    # related to fixed cost
     capsule = ifelse(sum(str_detect(form1, "カプセル")) > 0, 1, 0), 
     tablet = ifelse(sum(str_detect(form1, "錠")) > 0, 1, 0), 
     granule = ifelse(sum(str_detect(form1, "粒")) > 0, 1, 0), 
@@ -82,7 +109,16 @@ df_exante_brand_merged <-
     #maker = str_flatten(sort(unique(maker[form2 == "内服"])), collapse = "-"), 
     form_variety = length(unique(form1)), 
     inactive_variety = length(unique(as.vector(str_split(inactive[!is.na(inactive)], "，", simplify = T)))), 
-    subst = unique(subst), 
+    
+    # related to substituttion
+    # substitute
+    subst_act = unique(subst_act), 
+    subst_inc = unique(subst_inc) - N_incumbent, 
+    across(
+      .cols = starts_with("subst_rev"), 
+      .fns = ~sum(.x), 
+      .names = "{.col}"
+    ), 
     .groups = "drop"
   ) %>% 
   na.omit()
@@ -94,18 +130,22 @@ df_exante_brand_merged <-
 
 df_sample_exante <- 
   df_exante_brand_merged %>% 
-  rename(active = name_g, 
-         price = price1, 
-         substitute = subst) %>% 
+  rename(active = name_g) %>% 
   mutate(
     N_inc_over2 = ifelse(N_incumbent > 2, 1, 0), 
     N_inc_over3 = ifelse(N_incumbent > 3, 1, 0), 
-    ln_revenue = log(price*total), 
-    ln_revenue_hos = log(price*total_hos)
+    across(
+      .cols = c(starts_with("revenue"), starts_with("subst_rev")), 
+      .fns = ~log(.x + 1), 
+      .names = "ln_{.col}"
+    )
   ) %>% 
-  select(active, incumbent, AG_entry, c(N_incumbent, N_inc_over2, N_inc_over3), 
-         c(price, ln_revenue, ln_revenue_hos), c(capsule, tablet, granule, siroop, liquid), 
-         c(form_variety, inactive_variety, substitute))
+  select(active, incumbent, AG_entry, 
+         c(N_incumbent, N_inc_over2, N_inc_over3), 
+         c(price, starts_with("ln_revenue")), 
+         c(subst_act, subst_inc, starts_with("ln_subst_rev")), 
+         c(capsule, tablet, granule, siroop, liquid), 
+         c(form_variety, inactive_variety))
 
 
 
@@ -183,11 +223,11 @@ for(i in 1:length(vec_inc_pre)){
 
 ## define formula
 fml <- as.formula(paste("AG_entry ~ ", 
-                        paste(c("ln_revenue", "ln_revenue:N_incumbent", 
-                                "ln_revenue_hos", "ln_revenue_hos:N_incumbent", 
-                                "price", "capsule", "tablet", "granule", 
-                                "siroop", "liquid", "form_variety", 
-                                "inactive_variety", "substitute", 
+                        paste(c("ln_revenue_total", "ln_revenue_total:N_incumbent", 
+                                "price", "capsule", "tablet", "granule", "siroop", "liquid", 
+                                "form_variety", 
+                                "inactive_variety", "subst_act", "subst_inc", 
+                                "ln_subst_rev", "subst_inc:ln_subst_rev", 
                                 paste0("incumbent_dum", 1:length(vec_inc_pre))), 
                               collapse = "+")))
 

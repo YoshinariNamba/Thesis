@@ -49,7 +49,7 @@ df_AGrecord <-
 ## brand-specific dataset
 df_jpc_br_merged <- 
   df_jpc_cl2 %>% 
-  filter(brand) %>% 
+  filter(brand, !is.na(price1)) %>% 
   # merge recept data
   left_join(df_recept, by = c("code_yj" = "code_shusai")) %>% 
   filter(year == 2015) %>% 
@@ -64,17 +64,31 @@ df_jpc_br_merged <-
     )
   ) %>% 
   mutate(total = total_in + total_out + total_hos) %>% 
+  mutate(
+    across(
+      .cols = contains("total"), 
+      .fns = ~ (.x * price1), 
+      .names = "revenue_{.col}"
+    )
+  ) %>% 
   group_by(eff) %>% 
-  mutate(subst = length(unique(name_g)) - 1) %>% 
+  mutate(
+    subst_act = length(unique(name_g)) - 1, 
+    subst_inc = length(unique(maker)), 
+    subst_rev = sum(revenue_total) - revenue_total, 
+    subst_rev_in = sum(revenue_total_in) - revenue_total_in, 
+    subst_rev_out = sum(revenue_total_out) - revenue_total_out, 
+    subst_rev_hos = sum(revenue_total_hos) - revenue_total_hos
+  ) %>% 
   ungroup() %>% 
   group_by(name_g) %>% 
   summarise(
     N_incumbent = length(unique(maker)), 
     incumbent = str_flatten(sort(unique(maker)), collapse = "-"), 
     ag_record = sum(aggregate(x = ag_record, by = list(maker), FUN = mean)$x), 
-    across(.cols = c(price1, contains("total")), 
-           .fns = ~weighted.mean(.x, w = num_in_unit1/num_in_unit2), 
-           .names = "{.col}"), 
+    # across(.cols = c(price1, contains("total")), 
+    #        .fns = ~weighted.mean(.x, w = num_in_unit1/num_in_unit2), 
+    #        .names = "{.col}"), 
     capsule = ifelse(sum(str_detect(form1, "カプセル")) > 0, 1, 0), 
     tablet = ifelse(sum(str_detect(form1, "錠")) > 0, 1, 0), 
     granule = ifelse(sum(str_detect(form1, "粒")) > 0, 1, 0), 
@@ -84,13 +98,27 @@ df_jpc_br_merged <-
     #maker = str_flatten(sort(unique(maker[form2 == "内服"])), collapse = "-"), 
     form_variety = length(unique(form1)), 
     inactive_variety = length(unique(as.vector(str_split(inactive[!is.na(inactive)], "，", simplify = T)))), 
-    subst = unique(subst), 
+    
+    # price
+    price = weighted.mean(price1, w = num_in_unit1/num_in_unit2), 
+    
+    # revenue
+    across(
+      .cols = contains("revenue"), 
+      .fns = ~sum(.x), 
+      .names = "{.col}"
+    ), 
+    
+    # substitute
+    subst_act = unique(subst_act), 
+    subst_inc = unique(subst_inc) - N_incumbent, 
+    across(
+      .cols = starts_with("subst_rev"), 
+      .fns = ~sum(.x), 
+      .names = "{.col}"
+    ), 
     .groups = "drop"
-  ) #%>% 
-  #filter(maker != "") %>% 
-  #arrange(maker) %>% 
-  #mutate(mean_ag_record = ag_record / n_maker)
-  
+  ) 
 
 ## sample
 df_active <- 
@@ -103,7 +131,6 @@ df_active <-
     Final_ag = paste0("N_ag_", 2019)
   ) %>% 
   filter(Initial_genric - Initial_ag <= 0)  %>% 
-  rename(price = price1) %>% 
   select(-c(contains("N_total"), contains("N_brand"), 
             contains("N_generic"), contains("N_ag")))
 

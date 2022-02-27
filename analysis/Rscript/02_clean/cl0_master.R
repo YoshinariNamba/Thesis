@@ -17,6 +17,7 @@ source("./Rscript/02_clean/cl6_belief.R", encoding = "UTF-8")
 
 # save
 write_rds(df_sample, "./output/data/sample.rds")
+write_rds(mdl_belief, "./output/result/mdl_belief.rds")
 
 # remove
 rm(list = ls())
